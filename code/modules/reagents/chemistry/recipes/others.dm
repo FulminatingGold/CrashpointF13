@@ -335,6 +335,17 @@
 	results = list("fluorosurfactant" = 5)
 	required_reagents = list("fluorine" = 2, "carbon" = 2, "sacid" = 1)
 
+/datum/chemical_reaction/FEV_surfactant_burn
+	name = "FEV_Surfactant_Burn"
+	id = "fev_surfactant_burn"
+	required_reagents = list("FEV_solution" = 1, "smoke_powder" = 1)
+
+/datum/chemical_reaction/FEV_surfactant_burn/on_reaction(datum/reagents/holder, created_volume)
+	var/turf/T = get_turf(holder.my_atom)
+	for(var/turf/turf in range(1,T))
+		new /obj/effect/hotspot(turf)
+	holder.clear_reagents()
+
 /datum/chemical_reaction/foam
 	name = "Foam"
 	id = "foam"
@@ -342,6 +353,12 @@
 	mob_react = FALSE
 
 /datum/chemical_reaction/foam/on_reaction(datum/reagents/holder, created_volume)
+	if(holder.has_reagent("FEV_solution"))
+		var/turf/T = get_turf(holder.my_atom)
+		for(var/turf/turf in range(1,T))
+			new /obj/effect/hotspot(turf)
+		holder.clear_reagents()
+		return
 	var/location = get_turf(holder.my_atom)
 	for(var/mob/M in viewers(5, location))
 		to_chat(M, "<span class='danger'>The solution spews out foam!</span>")

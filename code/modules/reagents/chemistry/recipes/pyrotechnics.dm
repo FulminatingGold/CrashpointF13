@@ -43,6 +43,22 @@
 	required_temp = 474
 	strengthdiv = 2
 
+/datum/chemical_reaction/reagent_explosion/FEV_potassium_explosion
+	name = "FEV_Explosion"
+	id = "fev_potassium_explosion"
+	required_reagents = list("FEV_solution" = 1, "potassium" = 1)
+	strengthdiv = 10
+
+/datum/chemical_reaction/FEV_smoke_burn
+	name = "FEV_Smoke_Burn"
+	id = "fev_smoke_burn"
+	required_reagents = list("FEV_solution" = 1, "smoke_powder" = 1)
+
+/datum/chemical_reaction/FEV_smoke_burn/on_reaction(datum/reagents/holder, created_volume)
+	var/turf/T = get_turf(holder.my_atom)
+	for(var/turf/turf in range(1,T))
+		new /obj/effect/hotspot(turf)
+	holder.clear_reagents()
 
 /datum/chemical_reaction/reagent_explosion/potassium_explosion
 	name = "Explosion"
@@ -248,6 +264,12 @@
 	required_reagents = list("potassium" = 1, "sugar" = 1, "phosphorus" = 1)
 
 /datum/chemical_reaction/smoke_powder/on_reaction(datum/reagents/holder, created_volume)
+	if(holder.has_reagent("FEV_solution"))
+		var/turf/T = get_turf(holder.my_atom)
+		for(var/turf/turf in range(1,T))
+			new /obj/effect/hotspot(turf)
+		holder.clear_reagents()
+		return
 	if(holder.has_reagent("stabilizing_agent"))
 		return
 	holder.remove_reagent("smoke_powder", created_volume*3)
@@ -270,6 +292,12 @@
 	mob_react = FALSE
 
 /datum/chemical_reaction/smoke_powder_smoke/on_reaction(datum/reagents/holder, created_volume)
+	if(holder.has_reagent("FEV_solution"))
+		var/turf/T = get_turf(holder.my_atom)
+		for(var/turf/turf in range(1,T))
+			new /obj/effect/hotspot(turf)
+		holder.clear_reagents()
+		return
 	var/location = get_turf(holder.my_atom)
 	var/smoke_radius = round(sqrt(created_volume / 2), 1)
 	var/datum/effect_system/smoke_spread/chem/S = new

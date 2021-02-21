@@ -80,7 +80,7 @@
 /obj/item/reagent_containers/glass/bottle/FEV_solution
 	name = " FEV bottle"
 	desc = "A small vial of the Forced Evolutionary Virus. You think that consuming this would be a bad idea."
-	list_reagents = list("FEV_solution" = 30)
+	list_reagents = list("FEV_solution" = 1, "virusfood" = 29)
 
 /obj/item/reagent_containers/glass/bottle/plasma
 	name = "liquid ultracite bottle"
@@ -316,8 +316,8 @@
 	volume = 60
 	list_reagents = list("blackpowder" = 60)
 
-/obj/item/reagent_containers/glass/bottle/antivenom 
+/obj/item/reagent_containers/glass/bottle/antivenom
 	name = "Antivenom bottle"
 	desc = "Antivenom is modern medicine's answer to the tribal antidote by combining barral cactus fruit, xander root, and a venom gland from a cazador or radscorpion, which acts as a cure against animal venom."
 	icon_state = "bottle_antivenom"
-	list_reagents = list("antivenom" = 30) 
+	list_reagents = list("antivenom" = 30)
